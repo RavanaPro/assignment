@@ -10,10 +10,7 @@ import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.*;
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Modified;
-import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.*;
 import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +42,7 @@ public class SimpleServiceImpl implements SimpleService {
         path = config.service_path();
         System.out.println(path);
     }
+
 
     @Override
     public List<Bike> getBikeList(){

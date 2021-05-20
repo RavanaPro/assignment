@@ -23,6 +23,7 @@ import org.apache.sling.api.servlets.HttpConstants;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.apache.sling.servlets.annotations.SlingServletResourceTypes;
+import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.propertytypes.ServiceDescription;
 
@@ -36,11 +37,14 @@ import java.io.IOException;
  * {@link SlingSafeMethodsServlet} shall be used for HTTP methods that are
  * idempotent. For write operations use the {@link SlingAllMethodsServlet}.
  */
-@Component(service = { Servlet.class })
-@SlingServletResourceTypes(
-        resourceTypes="training/components/page",
-        methods=HttpConstants.METHOD_GET,
-        extensions="txt")
+@Component(service = Servlet.class, immediate = true,
+        property = { Constants.SERVICE_DESCRIPTION + "= Simple Servlet",
+                "sling.servlet.methods=" + HttpConstants.METHOD_GET,
+                "sling.servlet.paths=" + "/bin/test" })
+//@SlingServletResourceTypes(
+//        resourceTypes="training/components/page",
+//        methods=HttpConstants.METHOD_GET,
+//        extensions="txt")
 @ServiceDescription("Simple Demo Servlet")
 public class SimpleServlet extends SlingSafeMethodsServlet {
 
@@ -49,8 +53,8 @@ public class SimpleServlet extends SlingSafeMethodsServlet {
     @Override
     protected void doGet(final SlingHttpServletRequest req,
             final SlingHttpServletResponse resp) throws ServletException, IOException {
-        final Resource resource = req.getResource();
-        resp.setContentType("text/plain");
-        resp.getWriter().write("Title = " + resource.getValueMap().get(JcrConstants.JCR_TITLE));
+//        final Resource resource = req.getResource();
+//        resp.setContentType("text/plain");
+        resp.getWriter().write("Servlet is active");
     }
 }

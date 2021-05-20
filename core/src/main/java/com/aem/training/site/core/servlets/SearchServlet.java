@@ -47,7 +47,7 @@ public class SearchServlet extends SlingAllMethodsServlet {
     private static final String SEARCH_TERM = "searchTerm";
     private static final String SEARCH_PATH = "searchPath";
 
-    transient ResourceResolver resourceResolver;
+    transient ResourceResolver resourceResolver = null;
     @Reference
     transient QueryBuilder queryBuilder;
 
@@ -55,14 +55,15 @@ public class SearchServlet extends SlingAllMethodsServlet {
     protected void doGet(final SlingHttpServletRequest req,
                          final SlingHttpServletResponse resp) throws ServletException, IOException {
         resourceResolver = req.getResourceResolver();
+
         String searchKeyword = req.getParameter(SEARCH_TERM);
         List<String> searchResults = new LinkedList<>();
         String searchPath = req.getParameter(SEARCH_PATH);
+
         Map<String, String> params = new HashMap<>();
         params.put(CommonConstants.PATH, searchPath);
         params.put(CommonConstants.TYPE, CommonConstants.CQ_PAGE);
         params.put(CommonConstants.FULLTEXT, searchKeyword);
-        params.put(CommonConstants.P_OFFSET, CommonConstants.ZERO_STR);
         params.put(CommonConstants.P_LIMIT, CommonConstants.MINUS_ONE);
 
         log.debug("Parameter Map {}", params);
@@ -78,7 +79,8 @@ public class SearchServlet extends SlingAllMethodsServlet {
             }
         }
         resp.setContentType(CommonConstants.APPLICATION_JSON);
-        resp.getWriter().write(new Gson().toJson(getObjListFromPaths(searchResults)));
+        List<SearchResultItem> finalSearchResult = getObjListFromPaths(searchResults);
+        resp.getWriter().write(new Gson().toJson(finalSearchResult));
     }
 
     private List<SearchResultItem> getObjListFromPaths(List<String> resultPathList){

@@ -70,6 +70,16 @@ public class HelloWorldModel {
     @PostConstruct
     protected void init() {
 
+        ResourceResolver resolver = request.getResourceResolver();
+        Resource resource = resolver.getResource("/var/commerce/products/we-retail/eq/biking");
+        Iterable<Resource> childResources = resource.getChildren();
+
+        ValueMap vm = resource.getValueMap();
+        String price = vm.get("price",String.class);
+
+
+
+
         bikeList = simpleService.getBikeList();
 //        String path = currentResource.getPath();
 //        String name = currentResource.getName();
