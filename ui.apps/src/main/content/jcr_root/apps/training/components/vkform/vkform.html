@@ -1,0 +1,19 @@
+<div id="page" >
+<div id="header" style="background-color:${properties.list @ context='styleToken'}">
+    <sly data-sly-use.model="com.aem.training.site.core.models.HeaderModel" >
+
+
+        <div>
+            <a href="#" class="logo"><img src="${properties.image}" alt=""></a>
+
+            <ul id="navigation" data-sly-list="${model.heroSlides}">
+                <li class="selected">
+                    <a href="${item.link}">${item.title}</a>
+                </li>
+
+            </ul>
+        </div>
+    </sly>
+</div>
+</div>
+
